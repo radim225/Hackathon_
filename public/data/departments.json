@@ -1,0 +1,62 @@
+[
+  {
+    "id": "sales",
+    "name": "Sales",
+    "description": "Revenue generation and client relationships",
+    "color": "from-blue-400 to-cyan-500"
+  },
+  {
+    "id": "engineering",
+    "name": "Engineering", 
+    "description": "Product development and technical solutions",
+    "color": "from-green-400 to-emerald-500"
+  },
+  {
+    "id": "hr",
+    "name": "HR",
+    "description": "Human resources and people operations",
+    "color": "from-purple-400 to-pink-500"
+  },
+  {
+    "id": "marketing",
+    "name": "Marketing",
+    "description": "Brand promotion and market analysis",
+    "color": "from-orange-400 to-red-500"
+  },
+  {
+    "id": "finance",
+    "name": "Finance",
+    "description": "Financial planning and budget management",
+    "color": "from-yellow-400 to-orange-500"
+  },
+  {
+    "id": "it",
+    "name": "IT",
+    "description": "Information technology and systems",
+    "color": "from-indigo-400 to-purple-500"
+  },
+  {
+    "id": "operations",
+    "name": "Operations",
+    "description": "Business operations and process management",
+    "color": "from-gray-400 to-gray-600"
+  },
+  {
+    "id": "research",
+    "name": "Research",
+    "description": "Research and development initiatives",
+    "color": "from-teal-400 to-cyan-500"
+  },
+  {
+    "id": "logistics",
+    "name": "Logistics",
+    "description": "Supply chain and distribution management",
+    "color": "from-rose-400 to-pink-500"
+  },
+  {
+    "id": "support",
+    "name": "Support",
+    "description": "Customer support and service operations",
+    "color": "from-emerald-400 to-green-500"
+  }
+] 

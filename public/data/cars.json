@@ -1,0 +1,128 @@
+[
+  {
+    "id": "1",
+    "brand": "Volkswagen",
+    "model": "Polo",
+    "fuelType": "Petrol",
+    "marketSegment": "Small car",
+    "emissions": "144g CO₂/km",
+    "efficiency": "6.2L/100km"
+  },
+  {
+    "id": "2",
+    "brand": "Ford",
+    "model": "Fiesta",
+    "fuelType": "Petrol",
+    "marketSegment": "Small car",
+    "emissions": "144g CO₂/km",
+    "efficiency": "6.0L/100km"
+  },
+  {
+    "id": "3",
+    "brand": "MINI",
+    "model": "Cooper D",
+    "fuelType": "Diesel",
+    "marketSegment": "Medium car",
+    "emissions": "168g CO₂/km",
+    "efficiency": "4.2L/100km"
+  },
+  {
+    "id": "4",
+    "brand": "Audi",
+    "model": "A1 TDI",
+    "fuelType": "Diesel",
+    "marketSegment": "Medium car",
+    "emissions": "168g CO₂/km",
+    "efficiency": "4.3L/100km"
+  },
+  {
+    "id": "5",
+    "brand": "Toyota",
+    "model": "Prius+",
+    "fuelType": "Hybrid",
+    "marketSegment": "Large car",
+    "emissions": "155g CO₂/km",
+    "efficiency": "3.8L/100km"
+  },
+  {
+    "id": "6",
+    "brand": "Honda",
+    "model": "CR-V Hybrid",
+    "fuelType": "Hybrid",
+    "marketSegment": "Large car",
+    "emissions": "155g CO₂/km",
+    "efficiency": "4.0L/100km"
+  },
+  {
+    "id": "7",
+    "brand": "Tesla",
+    "model": "Model S",
+    "fuelType": "Battery Electric Vehicle",
+    "marketSegment": "Large car",
+    "emissions": "0g CO₂/km",
+    "efficiency": "18kWh/100km"
+  },
+  {
+    "id": "8",
+    "brand": "BMW",
+    "model": "i7",
+    "fuelType": "Battery Electric Vehicle",
+    "marketSegment": "Large car",
+    "emissions": "0g CO₂/km",
+    "efficiency": "19kWh/100km"
+  },
+  {
+    "id": "9",
+    "brand": "Volkswagen",
+    "model": "Golf GTE",
+    "fuelType": "Plug-in Hybrid Electric Vehicle",
+    "marketSegment": "Medium car",
+    "emissions": "81g CO₂/km",
+    "efficiency": "1.6L/100km"
+  },
+  {
+    "id": "10",
+    "brand": "BMW",
+    "model": "330e",
+    "fuelType": "Plug-in Hybrid Electric Vehicle",
+    "marketSegment": "Medium car",
+    "emissions": "81g CO₂/km",
+    "efficiency": "1.7L/100km"
+  },
+  {
+    "id": "11",
+    "brand": "Mercedes",
+    "model": "EQS",
+    "fuelType": "Battery Electric Vehicle",
+    "marketSegment": "Large car",
+    "emissions": "0g CO₂/km",
+    "efficiency": "17kWh/100km"
+  },
+  {
+    "id": "12",
+    "brand": "Toyota",
+    "model": "RAV4 Prime",
+    "fuelType": "Plug-in Hybrid Electric Vehicle",
+    "marketSegment": "Large car",
+    "emissions": "103g CO₂/km",
+    "efficiency": "1.0L/100km"
+  },
+  {
+    "id": "13",
+    "brand": "Peugeot",
+    "model": "208",
+    "fuelType": "Petrol",
+    "marketSegment": "Small car",
+    "emissions": "144g CO₂/km",
+    "efficiency": "5.8L/100km"
+  },
+  {
+    "id": "14",
+    "brand": "Volvo",
+    "model": "XC90 T8",
+    "fuelType": "Plug-in Hybrid Electric Vehicle",
+    "marketSegment": "Large car",
+    "emissions": "103g CO₂/km",
+    "efficiency": "2.7L/100km"
+  }
+] 

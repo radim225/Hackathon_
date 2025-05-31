@@ -1,0 +1,19 @@
+{
+  "userId": "user1",
+  "userDepartment": "Sales",
+  "userFuelType": "Petrol",
+  "userMarketSegment": "Small car",
+  "carBrand": "Volkswagen",
+  "carModel": "Golf GTE",
+  "carFuelType": "Plug-in Hybrid Electric Vehicle",
+  "carEfficiency": "1.6L/100km",
+  "distance": "7.7",
+  "duration": "25 minutes",
+  "co2Emissions": "0.6kg CO₂",
+  "transportType": "Public transport",
+  "cost": "30 CZK",
+  "startLocation": "Current Location",
+  "destination": "Praha",
+  "scheduledDateTime": "",
+  "tripTimestamp": "2025-05-31T09:39:22.835Z"
+}

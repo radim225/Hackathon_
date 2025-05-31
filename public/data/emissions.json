@@ -1,0 +1,33 @@
+{
+  "emissionFactors": {
+    "Small car": {
+      "Diesel": 0.13994,
+      "Petrol": 0.1437,
+      "Hybrid": 0.11274,
+      "Plug-in Hybrid Electric Vehicle": 0.03012,
+      "Battery Electric Vehicle": 0.0
+    },
+    "Medium car": {
+      "Diesel": 0.16807,
+      "Petrol": 0.17726,
+      "Hybrid": 0.1149,
+      "Plug-in Hybrid Electric Vehicle": 0.0812,
+      "Battery Electric Vehicle": 0.0
+    },
+    "Large car": {
+      "Diesel": 0.20729,
+      "Petrol": 0.26885,
+      "Hybrid": 0.15486,
+      "Plug-in Hybrid Electric Vehicle": 0.10306,
+      "Battery Electric Vehicle": 0.0
+    },
+    "Average car": {
+      "Diesel": 0.16984,
+      "Petrol": 0.1645,
+      "Hybrid": 0.12607,
+      "Plug-in Hybrid Electric Vehicle": 0.0936,
+      "Battery Electric Vehicle": 0.0
+    }
+  },
+  "description": "Emission factors in kg CO2e per km (Scope 1 - direct vehicle emissions)"
+} 
