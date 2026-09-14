@@ -24,14 +24,8 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "https://api.openai.com/:path*",
-      },
-    ];
-  },
+  // Intentionally no /api rewrites. A previous catch-all rewrite to
+  // https://api.openai.com/:path* would proxy arbitrary OpenAI traffic.
 };
 
 export default nextConfig;

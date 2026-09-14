@@ -27,12 +27,18 @@ A modern Next.js application for corporate vehicle management with real-time rou
    npm install
    ```
 
-2. **Start Development Server**
+2. **Configure environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Set at least `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` for the routing demo. Restrict that key by HTTP referrer in Google Cloud. Paid AI routes (`/api/openai/*`, `/api/anthropic/*`, `/api/replicate/*`, `/api/deepgram`) require `API_ROUTE_SECRET` (header `x-api-secret`) or a signed-in Firebase ID token — they fail closed if neither is configured.
+
+3. **Start Development Server**
    ```bash
    npm run dev
    ```
 
-3. **Access the Application**
+4. **Access the Application**
    - Main App: http://localhost:3000
    - Dashboard: http://localhost:3000/dashboard
 
@@ -153,6 +159,12 @@ The application includes comprehensive sample data:
 - **Multiple car models**: Tesla Model S, Ford Fiesta, MINI Cooper D, etc.
 - **Various fuel types**: Petrol, Diesel, Hybrid, PHEV, BEV
 - **Different trip distances**: From 8km city trips to 98km intercity journeys
+
+## Security notes
+
+Paid provider keys stay on the server. `/api/deepgram` no longer returns `DEEPGRAM_API_KEY`; authenticated clients receive a 30-second Deepgram token instead. There is no Next.js rewrite that proxies `/api/*` to OpenAI.
+
+If this repository was ever deployed or the Maps key was committed, rotate credentials in the Deepgram, OpenAI, Anthropic, Replicate, and Google Cloud consoles. Use a new Maps key in `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and restrict it by HTTP referrer.
 
 ## Troubleshooting
 
