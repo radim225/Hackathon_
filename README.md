@@ -27,12 +27,18 @@ A modern Next.js application for corporate vehicle management with real-time rou
    npm install
    ```
 
-2. **Start Development Server**
+2. **Configure environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
+   Fill in keys locally. Never commit `.env.local`. See `SECURITY.md` — rotate Deepgram, Maps, and OpenAI keys if they were previously exposed.
+
+3. **Start Development Server**
    ```bash
    npm run dev
    ```
 
-3. **Access the Application**
+4. **Access the Application**
    - Main App: http://localhost:3000
    - Dashboard: http://localhost:3000/dashboard
 

@@ -115,6 +115,7 @@ const GoogleMapsRouting: React.FC = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [directionsService, setDirectionsService] = useState<google.maps.DirectionsService | null>(null);
   const [directionsRenderer, setDirectionsRenderer] = useState<google.maps.DirectionsRenderer | null>(null);
+  const [mapsConfigError, setMapsConfigError] = useState<string | null>(null);
 
   // Calculate real emissions
   const calculateRealEmissions = (fuelType: string, marketSegment: string, distanceKm: number): string => {
@@ -219,8 +220,15 @@ const GoogleMapsRouting: React.FC = () => {
 
   useEffect(() => {
     const initMap = async () => {
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        setMapsConfigError("Google Maps is not configured. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY.");
+        setIsLoading(false);
+        return;
+      }
+
       const loader = new Loader({
-        apiKey: 'AIzaSyBRo02cp0UMrfbZuCFebqgyr0Wj-eV_kZM',
+        apiKey,
         version: 'weekly',
       });
 
@@ -633,7 +641,12 @@ const GoogleMapsRouting: React.FC = () => {
         <div className="px-4 mt-4">
           <div className="aspect-[4/3] bg-slate-200 rounded-2xl flex items-center justify-center relative overflow-hidden">
             <div ref={mapRef} className="w-full h-full rounded-2xl" />
-            {!showOptions && !isLoading && (
+            {mapsConfigError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-200/80 p-4 text-center">
+                <p className="text-sm text-gray-600">{mapsConfigError}</p>
+              </div>
+            )}
+            {!showOptions && !isLoading && !mapsConfigError && (
               <div className="absolute inset-0 flex items-center justify-center bg-slate-200/50">
                 <MapPin className="h-8 w-8 text-gray-400" />
               </div>
