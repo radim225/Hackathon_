@@ -166,6 +166,8 @@ Paid provider keys stay on the server. `/api/deepgram` no longer returns `DEEPGR
 
 If this repository was ever deployed or the Maps key was committed, rotate credentials in the Deepgram, OpenAI, Anthropic, Replicate, and Google Cloud consoles. Use a new Maps key in `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` and restrict it by HTTP referrer.
 
+See **[SECURITY.md](./SECURITY.md)** for the full rotation checklist (`API_ROUTE_SECRET` included).
+
 ## Troubleshooting
 
 ### No Data Showing

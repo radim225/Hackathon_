@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import {
   authorizeRequest,
   authErrorResponse,
-  validateChatMessages,
+  sanitizeChatMessages,
 } from "@/lib/apiProtect";
 
 export const runtime = "edge";
@@ -22,15 +22,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const messages = (body as { messages?: unknown }).messages;
-  const invalid = validateChatMessages(messages);
-  if (invalid) {
-    return NextResponse.json({ error: invalid }, { status: 400 });
+  const sanitized = sanitizeChatMessages((body as { messages?: unknown }).messages);
+  if (!sanitized.ok) {
+    return NextResponse.json({ error: sanitized.error }, { status: 400 });
   }
 
   const result = await streamText({
     model: anthropic("claude-3-5-sonnet-20240620"),
-    messages: convertToCoreMessages(messages as Parameters<typeof convertToCoreMessages>[0]),
+    messages: convertToCoreMessages(sanitized.messages),
     system: "You are a helpful AI assistant",
   });
 

@@ -175,35 +175,66 @@ export function rejectOversizedBody(req: Request, pathname: string): NextRespons
 const MAX_CHAT_MESSAGES = 32;
 const MAX_MESSAGE_CHARS = 8000;
 
-export function validateChatMessages(messages: unknown): string | null {
-  if (!Array.isArray(messages) || messages.length === 0 || messages.length > MAX_CHAT_MESSAGES) {
-    return `messages must be a non-empty array of at most ${MAX_CHAT_MESSAGES} items`;
+export type SanitizedChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export type SanitizeChatResult =
+  | { ok: true; messages: SanitizedChatMessage[] }
+  | { ok: false; error: string };
+
+/**
+ * Limit and sanitize client-supplied chat payloads.
+ * Drops system/tool/developer (and any other) roles so clients cannot
+ * inject a system prompt or tool transcript through the API.
+ */
+export function sanitizeChatMessages(input: unknown): SanitizeChatResult {
+  if (!Array.isArray(input) || input.length === 0 || input.length > MAX_CHAT_MESSAGES) {
+    return {
+      ok: false,
+      error: `messages must be a non-empty array of at most ${MAX_CHAT_MESSAGES} items`,
+    };
   }
 
-  for (const message of messages) {
-    if (!message || typeof message !== "object") {
-      return "each message must be an object";
+  const messages: SanitizedChatMessage[] = [];
+
+  for (const item of input) {
+    if (!item || typeof item !== "object") {
+      return { ok: false, error: "each message must be an object" };
     }
-    const role = (message as { role?: unknown }).role;
-    const content = (message as { content?: unknown }).content;
-    if (typeof role !== "string" || !role) {
-      return "each message must include a role";
-    }
-    if (typeof content === "string") {
-      if (content.length > MAX_MESSAGE_CHARS) {
-        return `message content exceeds ${MAX_MESSAGE_CHARS} characters`;
-      }
+
+    const role = (item as { role?: unknown }).role;
+    const content = (item as { content?: unknown }).content;
+
+    if (role !== "user" && role !== "assistant") {
       continue;
     }
-    try {
-      const serialized = JSON.stringify(content);
-      if (!serialized || serialized.length > MAX_MESSAGE_CHARS) {
-        return `message content exceeds ${MAX_MESSAGE_CHARS} characters`;
-      }
-    } catch {
-      return "invalid message content";
+
+    if (typeof content !== "string") {
+      return { ok: false, error: "message content must be a string" };
     }
+    if (content.length > MAX_MESSAGE_CHARS) {
+      return { ok: false, error: `message content exceeds ${MAX_MESSAGE_CHARS} characters` };
+    }
+    if (!content.trim()) {
+      continue;
+    }
+
+    messages.push({ role, content });
   }
 
-  return null;
+  if (messages.length === 0) {
+    return {
+      ok: false,
+      error: "messages must include at least one user or assistant message",
+    };
+  }
+
+  return { ok: true, messages };
+}
+
+export function validateChatMessages(messages: unknown): string | null {
+  const result = sanitizeChatMessages(messages);
+  return result.ok ? null : result.error;
 }
