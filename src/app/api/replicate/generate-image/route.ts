@@ -1,18 +1,40 @@
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
+import { authorizeRequest, authErrorResponse } from "@/lib/apiProtect";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 
+const MAX_PROMPT_CHARS = 2000;
+
 export async function POST(request: Request) {
+  const auth = await authorizeRequest(request);
+  if (!auth.ok) {
+    return authErrorResponse(auth);
+  }
+
   if (!process.env.REPLICATE_API_TOKEN) {
-    throw new Error(
-      "The REPLICATE_API_TOKEN environment variable is not set. See README.md for instructions on how to set it."
+    return NextResponse.json(
+      { error: "Replicate is not configured" },
+      { status: 503 }
     );
   }
 
-  const { prompt } = await request.json();
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const prompt = (body as { prompt?: unknown }).prompt;
+  if (typeof prompt !== "string" || prompt.trim().length === 0) {
+    return NextResponse.json({ error: "prompt is required" }, { status: 400 });
+  }
+  if (prompt.length > MAX_PROMPT_CHARS) {
+    return NextResponse.json({ error: "prompt is too long" }, { status: 400 });
+  }
 
   try {
     const output = await replicate.run(
@@ -30,8 +52,7 @@ export async function POST(request: Request) {
     );
 
     return NextResponse.json({ output }, { status: 200 });
-  } catch (error) {
-    console.error("Error from Replicate API:", error);
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: "Image generation failed" }, { status: 500 });
   }
 }

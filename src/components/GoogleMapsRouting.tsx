@@ -65,6 +65,7 @@ const GoogleMapsRouting: React.FC = () => {
   const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
   const [routeOptions, setRouteOptions] = useState<TransportOption[]>([]);
   const [isGoogleMapsLoaded, setIsGoogleMapsLoaded] = useState(false);
+  const [mapsError, setMapsError] = useState<string | null>(null);
   const [routeInfo, setRouteInfo] = useState<RouteInfo | null>(null);
   const [calculatedDurations, setCalculatedDurations] = useState<{[key: string]: string}>({});
   const [calculatedCosts, setCalculatedCosts] = useState<{[key: string]: string}>({});
@@ -219,8 +220,15 @@ const GoogleMapsRouting: React.FC = () => {
 
   useEffect(() => {
     const initMap = async () => {
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        setMapsError("Google Maps is not configured. Set NEXT_PUBLIC_GOOGLE_MAPS_API_KEY.");
+        setIsLoading(false);
+        return;
+      }
+
       const loader = new Loader({
-        apiKey: 'AIzaSyBRo02cp0UMrfbZuCFebqgyr0Wj-eV_kZM',
+        apiKey,
         version: 'weekly',
       });
 
@@ -633,7 +641,12 @@ const GoogleMapsRouting: React.FC = () => {
         <div className="px-4 mt-4">
           <div className="aspect-[4/3] bg-slate-200 rounded-2xl flex items-center justify-center relative overflow-hidden">
             <div ref={mapRef} className="w-full h-full rounded-2xl" />
-            {!showOptions && !isLoading && (
+            {mapsError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-slate-200/80 p-4 text-center text-sm text-slate-700">
+                {mapsError}
+              </div>
+            )}
+            {!mapsError && !showOptions && !isLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-slate-200/50">
                 <MapPin className="h-8 w-8 text-gray-400" />
               </div>

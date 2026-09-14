@@ -1,15 +1,13 @@
 "use client";
 
 import {
-  createClient,
-  LiveClient,
   SOCKET_STATES,
   LiveTranscriptionEvents,
-  type LiveSchema,
   type LiveTranscriptionEvent,
 } from "@deepgram/sdk";
 
 import { createContext, useContext, useState, ReactNode, FunctionComponent, useRef } from "react";
+import { auth } from "../firebase/firebase";
 
 interface DeepgramContextType {
   connectToDeepgram: () => Promise<void>;
@@ -25,10 +23,28 @@ interface DeepgramContextProviderProps {
   children: ReactNode;
 }
 
-const getApiKey = async (): Promise<string> => {
-  const response = await fetch("/api/deepgram", { cache: "no-store" });
-  const result = await response.json();
-  return result.key;
+const getTemporaryToken = async (): Promise<string> => {
+  const headers: Record<string, string> = {};
+  const user = auth.currentUser;
+  if (user) {
+    headers.Authorization = `Bearer ${await user.getIdToken()}`;
+  }
+
+  const response = await fetch("/api/deepgram", {
+    method: "POST",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to start transcription (sign in or configure API auth)");
+  }
+
+  const result = (await response.json()) as { access_token?: string };
+  if (!result.access_token) {
+    throw new Error("Unable to start transcription");
+  }
+  return result.access_token;
 };
 
 const DeepgramContextProvider: FunctionComponent<DeepgramContextProviderProps> = ({ children }) => {
@@ -45,10 +61,11 @@ const DeepgramContextProvider: FunctionComponent<DeepgramContextProviderProps> =
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioRef.current = new MediaRecorder(stream);
 
-      const apiKey = await getApiKey();
+      const accessToken = await getTemporaryToken();
 
-      console.log("Opening WebSocket connection...");
-      const socket = new WebSocket("wss://api.deepgram.com/v1/listen", ["token", apiKey]);
+      const socket = new WebSocket("wss://api.deepgram.com/v1/listen", [
+        `bearer ${accessToken}`,
+      ]);
 
       socket.onopen = () => {
         setConnectionState(SOCKET_STATES.open);
